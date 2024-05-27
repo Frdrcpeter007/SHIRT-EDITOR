@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>My Shirt - Custom Design</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+		type="text/javascript"></script>
+
+	<link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/css/semantic.min.css'>
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lobster|Gloria+Hallelujah|Indie+Flower''><link rel="stylesheet" href="./style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
+
+	<link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.1/dist/full.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+
+	<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					colors: {
+						clifford: ' #da373d',
+					}, daisyui: { darkTheme: false, },
+				},
+			}
+		} </script>
+
+</head>
+
+
+<body>
+
+
+	<div class="grid md:grid-cols-4 py-8 mx auto px-16">
+
+		<div class="col-span-3 flex !justify-center">
+			<div class="canvas">
+				<canvas id="c" width="450" height="700"></canvas>
+			</div>
+		</div>
+
+		<div class="space-y-3">
+
+			<div id="boxEdit">
+
+				<div class="bg-white px-6 py-4 rounded-xl border shadow-xs space-y-3">
+					<div class="text-2xl text-gray-700 font-bold">Modifier</div>
+
+					<div class="text-sm font-light">
+						Sélectionnez l'objet à modifier ou Ajouter un nouvel objet dans le menu de gauche.
+					</div>
+				</div>
+			</div><!-- .boxEditImage -->
+
+			<div id="boxEditText">
+				<div class="bg-white px-6 py-4 rounded-xl border shadow-xs space-y-3">
+					<div class="text-2xl text-gray-700 font-bold">Modifier: Texte</div>
+
+					<div class="">
+						<div class="flex flex-col gap-3">
+
+							<div class="form-control w-full max-w-xs">
+								<label class="label">
+									<span class="label-text text-gray-400">Votre texte</span>
+								</label>
+								<input type="text" placeholder="Type here"
+									class="input input-bordered w-full max-w-xs !rounded-xl !bg-transparent  text-gray-700 border-gray-200"
+									id="editText" />
+							</div>
+
+							<div class="field">
+								<label class="label-text !text-gray-400">Police</label>
+								<div class="ui selection dropdown fluid" id="uiEditFont">
+									<input name="gender" type="hidden" id="editFont">
+									<div class="default text">Sélectionnez</div>
+									<i class="dropdown icon"></i>
+									<div class="menu">
+										<div class="item" data-value="Arial">Arial</div>
+										<div class="item" data-value="Impact">Impact</div>
+										<div class="item" data-value="Lobster">Lobster</div>
+										<div class="item" data-value="Indie Flower">Indie Flower</div>
+										<div class="item" data-value="Gloria Hallelujah">Gloria Hallelujah</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="field">
+								<label class="label-text !text-gray-400">Couleur</label>
+								<div class="ui selection dropdown fluid" id="uiEditColor">
+									<input name="gender" type="hidden" id="editColor">
+									<div class="default text">Red</div>
+									<i class="dropdown icon"></i>
+									<div class="menu">
+										<div class="item" data-value="black">Black</div>
+										<div class="item" data-value="white">White</div>
+										<div class="item" data-value="red">Red</div>
+										<div class="item" data-value="orange">Orange</div>
+										<div class="item" data-value="blue">Blue</div>
+										<div class="item" data-value="green">Green</div>
+										<div class="item" data-value="aqua">Aqua</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="mt-3 flex gap-2 items-center">
+
+								<button id="updateTextButton"
+									class="btn gap-2 text-xs cursor-pointer bg-orange-500 border-0 text-white rounded-xl">
+									<i class="checkmark icon"></i>
+									Mettre à jour
+								</button>
+								<!-- <a href="#" id="updateTextButton">
+									<div class="ui orange button">
+										<i class="checkmark icon"></i>
+										Mettre à jour
+									</div>
+									
+								</a> -->
+
+								<button
+									class="trashButton btn gap-2 text-xs cursor-pointer border-0 text-white rounded-xl">
+									<i class="trash icon"></i>
+								</button>
+							</div>
+						</div><!-- form -->
+					</div>
+				</div>
+			</div><!-- .boxEditText -->
+
+			<div id="boxEditImage">
+				<div class="bg-white px-6 py-4 rounded-xl border shadow-xs space-y-3">
+					<div class="text-2xl text-gray-700 font-bold">Modifier: Image</div>
+
+					<div class="">
+						<div class="flex flex-col gap-3">
+							<p class="text-sm font-light">Use rectangle control around image to move / scale / rotate.</p>
+							<button class="trashButton w-min btn gap-2 text-xs cursor-pointer border-0 text-white rounded-xl">
+								<i class="trash icon"></i>
+							</button>
+							
+						</div>
+					</div>
+				</div>
+				
+			</div><!-- .boxEditImage -->
+
+
+			<div class="bg-white px-6 py-4 rounded-xl border shadow-xs space-y-3">
+				<strong class="text-gray-700">Prix:</strong> <span id="price"
+					class="font-bold !text-3xl text-orange-400">--</span> $
+			</div>
+
+
+
+			<div class="ui accordion fluid ">
+				<div class="title">
+					<i class="dropdown icon"></i>
+					<i class="uil uil-setting"></i>
+					Paramètre
+				</div>
+				<div class="content space-y-3">
+
+
+					<button id="resetButton"
+						class="btn gap-2 text-xs cursor-pointer bg-gray-400 border-0 text-white rounded-xl">
+						<i class="refresh icon"></i>
+
+						Réinitiliser
+					</button>
+
+					<p class="text-sm font-light">Vous pouvez choisir d'ajouter un text illimité ou une image
+						ci-dessous.</p>
+				</div>
+
+				<div class="title">
+					<i class="dropdown icon"></i>
+					<i class="uil uil-text-fields"></i>
+					Ajouter du texte
+				</div>
+				<div class="content">
+					<div class="flex flex-col gap-3">
+
+						<div class="form-control w-full max-w-xs">
+							<label class="label">
+								<span class="label-text text-gray-400">Votre texte</span>
+							</label>
+							<input type="text" placeholder="Type here"
+								class="input input-bordered w-full max-w-xs !rounded-xl !bg-transparent text-gray-700 border-gray-200"
+								id="inputText" />
+						</div>
+
+						<div class="field">
+							<label class="label-text !text-gray-400">Police</label>
+							<div class="ui selection dropdown fluid">
+								<input name="gender" type="hidden" id="inputFont" value="Arial">
+								<div class="default text">Arial</div>
+								<i class="dropdown icon"></i>
+								<div class="menu">
+									<div class="item" data-value="Arial">Arial</div>
+									<div class="item" data-value="Impact">Impact</div>
+									<div class="item" data-value="Lobster">Lobster</div>
+									<div class="item" data-value="Indie Flower">Indie Flower</div>
+									<div class="item" data-value="Gloria Hallelujah">Gloria Hallelujah</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="field">
+							<label class="label-text !text-gray-400">Couleur</label>
+							<div class="ui selection dropdown fluid">
+								<input name="color" type="hidden" id="inputColor" value="red">
+								<div class="default text">Red</div>
+								<i class="dropdown icon"></i>
+								<div class="menu">
+									<div class="item" data-value="black">Black</div>
+									<div class="item" data-value="white">White</div>
+									<div class="item" data-value="red">Red</div>
+									<div class="item" data-value="orange">Orange</div>
+									<div class="item" data-value="blue">Blue</div>
+									<div class="item" data-value="green">Green</div>
+									<div class="item" data-value="aqua">Aqua</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="mt-3 flex gap-2 items-center">
+
+							<button id="addTextButton"
+								class="btn gap-2 text-xs cursor-pointer bg-orange-500 border-0 text-white rounded-xl">
+								<i class="add sign icon"></i>
+								Ajouter ce texte
+							</button>
+
+
+						</div>
+
+					</div><!-- form -->
+				</div>
+
+				<div class="title">
+					<i class="dropdown icon"></i>
+					<i class="uil uil-image-plus"></i>
+					Ajouter une image
+				</div>
+				<div class="content">
+
+					<div class="flex flex-col gap-3 justify-center items-center">
+
+						<label for="modalLibrairy" id="libraryButton"
+							class="btn gap-2 text-xs cursor-pointer bg-orange-500 border-0 text-white rounded-xl">
+							<i class="block layout icon"></i>
+							À partir de la bibliothèque
+						</label>
+						<div class="flex flex-col w-full border-opacity-50">
+							<div class="divider">OR</div>
+						</div>
+						<div class="flex items-center justify-center w-full">
+							<label for="imgLoader"
+								class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+								<div class="flex flex-col items-center justify-center pt-5 pb-6">
+									<svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none"
+										stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+											d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+										</path>
+									</svg>
+									<p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to
+											upload</span> or drag and drop</p>
+									<p class="text-xs text-gray-500">JPG, JPEG ou PNG (MAX. 5MB)</p>
+								</div>
+								<input id="imgLoader" type="file" class="hidden" />
+							</label>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+
+			<div class="bg-white px-6 py-4 rounded-xl border shadow-xs space-y-3">
+
+				<button id="getdata-button"
+					class="btn gap-2 text-xs cursor-pointer bg-orange-500 border-0 text-white rounded-xl">
+					<i class="checkmark icon"></i>
+					Enregistrer
+				</button>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Modal Librairie -->
+	<div>
+		<input type="checkbox" id="modalLibrairy" class="modal-toggle" />
+		<label for="modalLibrairy" class="modal cursor-pointer">
+			<label class="modal-box relative !bg-white space-y-8" for="">
+				<h3 class="text-md md:text-xl font-bold text-gray-700">Faites le choix avec notre bibliothèque</h3>
+				
+					<div class="!grid !grid-cols-5 items-center !gap-6 items">
+						<div class="item relative w-full h-20" data-price="-3">
+							<div class="absolute left-1 bg-red-500 px-2 rounded top-1 text-xs text-white">
+								<span class="text">+3$</span>
+							</div>
+							<div class="image w-full rounded-xl overflow-hidden h-full">
+								<img src="https://w7.pngwing.com/pngs/452/24/png-transparent-js-logo-node-logos-and-brands-icon.png"
+									alt="" loading="lazy" class="h-full w-full object-contain"/>
+							</div>
+						</div>
+
+						<div class="item relative w-full h-20" data-price="-1">
+							<div class="absolute left-1 bg-red-500 px-2 rounded top-1 text-xs text-white">
+								<span class="text">+1$</span>
+							</div>
+							<div class="image w-full rounded-xl overflow-hidden h-full">
+								<img src="https://blog.spoongraphics.co.uk/wp-content/uploads/2010/badge/chrisspooner-emblem.png"
+									alt="" loading="lazy" class="h-full w-full object-contain"/>
+							</div>
+						</div>
+						
+
+						<div class="item relative w-full h-20">
+							
+							<div class="image w-full rounded-xl overflow-hidden h-full">
+								<img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"
+									alt="" loading="lazy" class="h-full w-full object-contain"/>
+							</div>
+						</div>
+						
+
+						<div class="item relative w-full h-20" data-price="-3">
+							<div class="absolute left-1 bg-red-500 px-2 rounded top-1 text-xs text-white">
+								<span class="text">+3$</span>
+							</div>
+							<div class="image w-full rounded-xl overflow-hidden h-full">
+								<img src="https://blog.wildix.com/wp-content/uploads/2016/11/webrtc-logo-vert-retro-255x305-1.png"
+									alt="" loading="lazy" class="h-full w-full object-contain"/>
+							</div>
+						</div>
+						
+
+						<div class="item relative w-full h-20">
+							
+							<div class="image w-full rounded-xl overflow-hidden h-full">
+								<img src="https://katpam.com/Formationenligne/wp-content/uploads/2015/12/html_css_advanced_topic.jpg"
+									alt="" loading="lazy" class="h-full w-full object-contain"/>
+							</div>
+						</div>
+
+						<div class="item relative w-full h-20" data-price="-1">
+							<div class="absolute left-1 bg-red-500 px-2 rounded top-1 text-xs text-white">
+								<span class="text">+1$</span>
+							</div>
+							<div class="image w-full rounded-xl overflow-hidden h-full">
+								<img src="https://www.myeventnetwork.com/sites/default/files/styles/open_graph/public/2021-06/logo-jai-un-pote-com.jpg?itok=UAOut7_v"
+									alt="" loading="lazy" class="h-full w-full object-contain"/>
+							</div>
+						</div>
+
+						<div class="item relative w-full h-20">
+							
+							<div class="image w-full rounded-xl overflow-hidden h-full">
+								<img src="https://cdn.countryflags.com/thumbs/congo-democratic-republic-of-the/flag-round-250.png"
+									alt="" loading="lazy" class="h-full w-full object-contain"/>
+							</div>
+						</div>
+
+						<div class="item relative w-full h-20">
+							
+							<div class="image w-full rounded-xl overflow-hidden h-full">
+								<img src="https://lthub.ubc.ca/files/2021/06/GitHub-Logo.png"
+									alt="" loading="lazy" class="h-full w-full object-contain"/>
+							</div>
+						</div>
+
+						<div class="item relative w-full h-20">
+							
+							<div class="image w-full rounded-xl overflow-hidden h-full">
+								<img src="https://www.e-marketing.fr/Assets/Img/BREVE/2015/11/260902/Communaute-marque-quelles-sont-cles-succes--F.jpg"
+									alt="" loading="lazy" class="h-full w-full object-contain"/>
+							</div>
+						</div>
+
+						<div class="item relative w-full h-20">
+							
+							<div class="image w-full rounded-xl overflow-hidden h-full">
+								<img src="./logo.png"
+									alt="" loading="lazy" class="h-full w-full object-contain"/>
+							</div>
+						</div>
+						
+					</div>
+					<div class="mt-10 flex gap-6 justify-end items-center">
+						
+						<button id="buttonAdd"
+							class="a btn gap-2 text-xs cursor-pointer bg-orange-500 border-0 text-white rounded-xl">
+							Ajouter Image
+						</button>
+
+						<label for="modalLibrairy">
+							Annuler
+						</label>
+					</div>
+			</label>
+		</label>
+	</div>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.8/fabric.min.js"></script>
+	<!-- partial -->
+	<script src=' //cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'>
+	</script>
+	<script src='//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/javascript/semantic.min.js'></script>
+	<script src="./script.js"></script>
+
+</body>
+
+</html>
