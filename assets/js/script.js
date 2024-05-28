@@ -1,17 +1,17 @@
-var select_item = '';
-var select_price = '+0';
-var price = 14;
+let select_item = '';
+let select_price = '+0';
+let price = 14;
 
-var item_list = [];
+let item_list = [];
 
-var rectboxX = 130,
+let rectboxX = 130,
 	rectboxY = 320,
 	rectboxWidth = 215,
 	rectboxHeight = 360;
 
 function updatePrice(price_change) {
-	var regExp = /(\=|\+|\-)(\d+)/;
-	var result, result_sign, result_no;
+	let regExp = /(\=|\+|\-)(\d+)/;
+	let result, result_sign, result_no;
 
 	/* Use Regular Expression to decide input
 	   undefined = no change
@@ -23,6 +23,7 @@ function updatePrice(price_change) {
 		if (result.index === regExp.lastIndex) {
 			regExp.lastIndex++;
 		}
+
 		result_sign = result[1];
 		result_no = result[2];
 	}
@@ -65,12 +66,12 @@ $(document).ready(function () {
 
 	$('#buttonAdd').on('click', function () {
 		if (select_item === '') return;
-		var imgObj = new Image();
+		let imgObj = new Image();
 		imgObj.src = select_item;
 		imgObj.onload = function () {
 			// start fabricJS stuff
 
-			var image = new fabric.Image(imgObj);
+			let image = new fabric.Image(imgObj);
 			image.scale(0.1).set({
 				left: 0,
 				right: 0
@@ -78,7 +79,7 @@ $(document).ready(function () {
 			//image.scale(getRandomNum(0.1, 0.25)).setCoords();
 
 			image.on('selected', function () {
-				var obJ = canvas.getActiveObject();
+				let obJ = canvas.getActiveObject();
 
 				$('#boxEdit, #boxEditText').hide();
 				$('#boxEditImage').show();
@@ -95,12 +96,12 @@ $(document).ready(function () {
 		}
 	});
 
-	var canvas = this.__canvas = new fabric.Canvas('c');
+	let canvas = this.__canvas = new fabric.Canvas('c');
 	fabric.Object.prototype.transparentCorners = false;
 
-	var radius = 300;
+	let radius = 300;
 
-	fabric.Image.fromURL('./shirt.png', function (img) {
+	fabric.Image.fromURL('./assets/img/shirt.png', function (img) {
 		img.set({
 			left: 0,
 			top: 0,
@@ -126,7 +127,7 @@ $(document).ready(function () {
 
 		canvas.add(rectbox);
 
-		// var recttext = new fabric.Text('Zone imprimable', {
+		// let recttext = new fabric.Text('Zone imprimable', {
 		// 	fontSize: 14,
 		// 	fontFamily: 'sans-serif',
 		// 	left: 185,
@@ -140,7 +141,7 @@ $(document).ready(function () {
 		// canvas.add(recttext);
 
 		// Create Clip Area (Object created after this will be clipped)
-		/*    var ctx = canvas.getContext("2d");
+		/*    let ctx = canvas.getContext("2d");
 			ctx.beginPath();
 			ctx.rect(rectboxX, rectboxY,rectboxWidth, rectboxHeight);
 			ctx.closePath();
@@ -152,25 +153,25 @@ $(document).ready(function () {
 	});
 
 	$('#addTextButton').on('click', function () {
-		var inText = $('#inputText').val();
+		let inText = $('#inputText').val();
 
 		if (inText.trim() === '') {
 			alert('Please type text');
 			return;
 		}
 
-		var inFont = $('#inputFont').val();
-		var inSize = 14;
-		var inColor = $('#inputColor').val();
+		let inFont = $('#inputFont').val();
+		let inSize = 14;
+		let inColor = $('#inputColor').val();
 
-		var newText = new fabric.Text(inText, {
+		let newText = new fabric.Text(inText, {
 			fontSize: inSize,
 			fontFamily: inFont,
 			fill: inColor
 		});
 
 		newText.on('selected', function () {
-			var obJ = canvas.getActiveObject();
+			let obJ = canvas.getActiveObject();
 
 			// Update Edit Text
 			$('#editText').val(obJ.text);
@@ -189,18 +190,18 @@ $(document).ready(function () {
 	});
 
 	$('#updateTextButton').on('click', function () {
-		var inText = $('#editText').val();
+		let inText = $('#editText').val();
 
 		if (inText.trim() === '') {
 			$('.trashButton').trigger('click');
 			return;
 		}
 
-		var inFont = $('#editFont').val();
-		var inSize = 14;
-		var inColor = $('#editColor').val();
+		let inFont = $('#editFont').val();
+		let inSize = 14;
+		let inColor = $('#editColor').val();
 
-		var TexttoEdit = canvas.getActiveObject();
+		let TexttoEdit = canvas.getActiveObject();
 		TexttoEdit.setText(inText)
 			.setFontFamily(inFont)
 			.setFontSize(inSize)
@@ -219,21 +220,21 @@ $(document).ready(function () {
 		}
 
 		// Check file extensions
-		var fileExt = $('#imgLoader').val().split('.').pop().toLowerCase();
+		let fileExt = $('#imgLoader').val().split('.').pop().toLowerCase();
 		if ($.inArray(fileExt, ['png', 'jpg', 'jpeg']) == -1) {
 			alert('Vous ne pouvez pas télécharger ce fichier. Veuillez télécharger uniquement des images .png, .jpg ou .jpeg.');
 			$('#file').val("");
 			return false;
 		}
 
-		var reader = new FileReader();
+		let reader = new FileReader();
 		reader.onload = function (event) {
-			var imgObj = new Image();
+			let imgObj = new Image();
 			imgObj.src = event.target.result;
 			imgObj.onload = function () {
 				// start fabricJS stuff
 
-				var image = new fabric.Image(imgObj);
+				let image = new fabric.Image(imgObj);
 				image.scale(0.16).set({
 					left: 0,
 					right: 0,
@@ -241,7 +242,7 @@ $(document).ready(function () {
 				});
 
 				image.on('selected', function () {
-					var obJ = canvas.getActiveObject();
+					let obJ = canvas.getActiveObject();
 
 					$('#boxEdit, #boxEditText').hide();
 					$('#boxEditImage').show();
@@ -261,10 +262,10 @@ $(document).ready(function () {
 
 	$('.trashButton').on('click', function () {
 		
-		var obJ = canvas.getActiveObject();
+		let obJ = canvas.getActiveObject();
 
 		// Remove from item_list
-		var obJindex = item_list.indexOf(obJ);
+		let obJindex = item_list.indexOf(obJ);
 		if (obJindex > -1) {
 			item_list.splice(obJindex, 1);
 		}
@@ -276,8 +277,8 @@ $(document).ready(function () {
 	});
 
 	$('#resetButton').on('click', function () {
-		var iLength = item_list.length;
-		for (var i = 0; i < iLength; i++) {
+		let iLength = item_list.length;
+		for (let i = 0; i < iLength; i++) {
 			canvas.remove(item_list[i]);
 		}
 		item_list = [];
@@ -296,7 +297,7 @@ $(document).ready(function () {
 		//document.writeln(canvas.toSVG());
 		alert(JSON.stringify(item_list));
 		for (i = 0; i < item_list.length; i++) {
-			var one_item = item_list[i];
+			let one_item = item_list[i];
 			console.log(one_item, one_item.getLeft(), one_item.getTop());
 		}
 
